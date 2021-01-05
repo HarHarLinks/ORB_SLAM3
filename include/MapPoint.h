@@ -217,7 +217,7 @@ public:
     cv::Mat mNormalVectorMerge;
 
 
-    // Fopr inverse depth optimization
+    // For inverse depth optimization
     double mInvDepth;
     double mInitU;
     double mInitV;

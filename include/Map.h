@@ -49,7 +49,7 @@ class Map
         ar & mnInitKFid;
         ar & mnMaxKFid;
         ar & mnBigChangeIdx;
-        // Set of KeyFrames and MapPoints, in this version the set serializator is not working
+        // Set of KeyFrames and MapPoints, in this version the set serializer is not working
         //ar & mspKeyFrames;
         //ar & mspMapPoints;
 
