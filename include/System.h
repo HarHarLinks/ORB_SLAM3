@@ -179,6 +179,8 @@ public:
 
     //void SaveAtlas(int type);
 
+    void ExportPly(const string & filename);
+
 private:
 
     //bool LoadAtlas(string filename, int type);

@@ -112,9 +112,11 @@ include/CameraModels/KannalaBrandt8.h
 include/OptimizableTypes.h
 include/MLPnPsolver.h
 include/TwoViewReconstruction.h
+Thirdparty/happly/happly.h
 src/TwoViewReconstruction.cc)
 
 add_subdirectory(Thirdparty/g2o)
+add_subdirectory(Thirdparty/DBoW2)
 
 target_link_libraries(${PROJECT_NAME}
 ${OpenCV_LIBS}

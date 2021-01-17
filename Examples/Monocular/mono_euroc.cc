@@ -157,6 +157,9 @@ int main(int argc, char **argv)
         SLAM.SaveKeyFrameTrajectoryEuRoC("KeyFrameTrajectory.txt");
     }
 
+    const string export_file = string(argv[argc-1]);
+    SLAM.ExportPly(export_file);
+
     return 0;
 }
 

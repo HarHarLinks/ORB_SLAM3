@@ -32,6 +32,7 @@
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/xml_iarchive.hpp>
 #include <boost/archive/xml_oarchive.hpp>
+#include "Thirdparty/happly/happly.h"
 
 namespace ORB_SLAM3
 {
@@ -913,6 +914,47 @@ void System::ChangeDataset()
     }
 
     mpTracker->NewDataset();
+}
+
+void System::ExportPly(const string & filename){
+    const string f = filename + "-ascii.ply";
+    cout << endl << "Saving Map to " << f << " ..." << endl;
+
+    // get point positions and visibility info
+    vector< tuple< cv::Mat, vector<long> > > points;
+    vector< vector<float> > positions = {{}, {}, {}};
+    for (auto point : mpAtlas->GetAllMapPoints()) {
+        auto pos = point->GetWorldPos();
+
+        vector<long> visibleKFs;
+        for(auto kf : mpAtlas->GetAllKeyFrames()) {
+            if (point->IsInKeyFrame(kf)) {
+                visibleKFs.push_back(kf->mnId);
+            }
+        }
+
+        for (auto i = pos.begin<double>(); i != pos.end<double>(); ++i) {
+            cout << *i << ',';
+        }
+        for (auto i = visibleKFs.begin(); i != visibleKFs.end(); ++i) {
+            cout << *i << ',';
+        }
+
+        cout << endl;
+
+        points.push_back({pos, visibleKFs});
+
+        for(int i = 0; i < pos.rows; i++)
+            positions[i].push_back(pos.at<float>(i));
+    }
+
+    //happly
+    happly::PLYData plyOut;
+    plyOut.addElement("vertex", positions[0].size());
+    plyOut.getElement("vertex").addProperty<float>("x", positions[0]);
+    plyOut.getElement("vertex").addProperty<float>("y", positions[1]);
+    plyOut.getElement("vertex").addProperty<float>("z", positions[2]);
+    plyOut.write(f, happly::DataFormat::ASCII);
 }
 
 /*void System::SaveAtlas(int type){
